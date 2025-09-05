@@ -87,23 +87,37 @@
     /* Credits button */
     .credits-btn {
       position: fixed;
-      bottom: 10px;
-      right: 10px;
-      font-size: 12px;
-      background: #888;
+      top: 15px;
+      right: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      background: #7e57c2;   /* ม่วงสด */
       color: white;
       border: none;
-      padding: 8px 12px;
-      border-radius: 20px;
+      padding: 12px 20px;
+      border-radius: 25px;
       cursor: pointer;
       z-index: 100;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      transition: transform 0.2s, background 0.3s;
+    }
+    .credits-btn:hover {
+      background: #5e35b1;   /* ม่วงเข้มเมื่อ hover */
+      transform: scale(1.05);
+    }
+
+    body.dark .credits-btn {
+      background: #42a5f5;   /* ฟ้าสดใน dark theme */
+    }
+    body.dark .credits-btn:hover {
+      background: #1e88e5;   /* ฟ้าเข้มเมื่อ hover */
     }
 
     /* Popup box */
     .credits-popup {
       position: fixed;
-      bottom: 50px;
-      right: 10px;
+      top: 60px;
+      right: 15px;
       background: #fff;
       color: #000;
       border: 1px solid #ccc;
@@ -114,7 +128,6 @@
       display: none;
       z-index: 101;
     }
-
     body.dark .credits-popup {
       background: #333;
       color: white;
@@ -158,7 +171,7 @@
   <div class="credits-popup" id="creditsBox">
     <strong>ผู้จัดทำ:</strong><br>
     รัชพล ศิรนิธิโชติ<br>
-    วิศรุต ประศรี(ไม่ช่วยงานให้0ทีครับ)<br>
+    วิศรุต ประศรี<br>
     กฤติน ศรีทองสุข
   </div>
 
