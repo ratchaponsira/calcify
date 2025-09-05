@@ -1,0 +1,206 @@
+<!DOCTYPE html> 
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>calcify</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .calculator {
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      width: 280px;
+      transition: background 0.3s;
+    }
+
+    .display {
+      width: 100%;
+      height: 50px;
+      margin-bottom: 10px;
+      text-align: right;
+      font-size: 24px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
+    }
+
+    button {
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .operator { background-color: #ffa726; color: white; }
+    .equal { background-color: #66bb6a; color: white; grid-column: span 2; }
+    .clear { background-color: #ef5350; color: white; }
+    .theme-toggle { margin-top: 15px; width: 100%; background: #607d8b; color: white; }
+
+    /* Light Theme */
+    body.light {
+      background: #f4f4f4;
+      color: #000;
+    }
+    .light .calculator {
+      background: white;
+    }
+    .light button:not(.operator):not(.equal):not(.clear):not(.theme-toggle) {
+      background-color: #e0e0e0;
+      color: #000;
+    }
+
+    /* Dark Theme */
+    body.dark {
+      background: #1e1e1e;
+      color: #fff;
+    }
+    .dark .calculator {
+      background: #333;
+    }
+    .dark .display {
+      background-color: #555;
+      color: white;
+    }
+    .dark button:not(.operator):not(.equal):not(.clear):not(.theme-toggle) {
+      background-color: #666;
+      color: #fff;
+    }
+
+    /* Credits button */
+    .credits-btn {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      font-size: 12px;
+      background: #888;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    /* Popup box */
+    .credits-popup {
+      position: fixed;
+      bottom: 50px;
+      right: 10px;
+      background: #fff;
+      color: #000;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 101;
+    }
+
+    body.dark .credits-popup {
+      background: #333;
+      color: white;
+      border-color: #666;
+    }
+  </style>
+</head>
+<body class="light">
+  <div class="calculator">
+    <input type="text" class="display" id="display" disabled />
+    <div class="buttons">
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button class="operator" onclick="press('÷')">÷</button>
+
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button class="operator" onclick="press('×')">×</button>
+
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button class="operator" onclick="press('-')">−</button>
+
+      <button onclick="press('0')">0</button>
+      <button onclick="press('.')">.</button>
+      <button class="equal" onclick="calculate()">=</button>
+      <button class="operator" onclick="press('+')">+</button>
+
+      <button class="clear" onclick="clearDisplay()">C</button>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">สลับธีม</button>
+  </div>
+
+  <!-- ปุ่มผู้จัดทำ -->
+  <button class="credits-btn" onclick="toggleCredits()">ผู้จัดทำ</button>
+
+  <!-- กล่องข้อมูลผู้จัดทำ -->
+  <div class="credits-popup" id="creditsBox">
+    <strong>ผู้จัดทำ:</strong><br>
+    รัชพล ศิรนิธิโชติ<br>
+    วิศรุต ประศรี<br>
+    กฤติน ศรีทองสุข
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    const creditsBox = document.getElementById('creditsBox');
+
+    function press(key) {
+      display.value += key;
+    }
+
+    function calculate() {
+      try {
+        let expression = display.value
+          .replace(/×/g, '*')
+          .replace(/÷/g, '/');
+        display.value = eval(expression);
+      } catch {
+        display.value = "Error";
+      }
+    }
+
+    function clearDisplay() {
+      display.value = '';
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      document.body.classList.toggle('dark');
+    }
+
+    function toggleCredits() {
+      creditsBox.style.display = creditsBox.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // ปิด popup ถ้าคลิกที่อื่น
+    window.addEventListener('click', function(event) {
+      const btn = document.querySelector('.credits-btn');
+      if (!creditsBox.contains(event.target) && !btn.contains(event.target)) {
+        creditsBox.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
