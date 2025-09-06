@@ -5,134 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>calcify</title>
   <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    .calculator {
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      width: 280px;
-      transition: background 0.3s;
-    }
-
-    .display {
-      width: 100%;
-      height: 50px;
-      margin-bottom: 10px;
-      text-align: right;
-      font-size: 24px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-gap: 10px;
-    }
-
-    button {
-      padding: 15px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s, color 0.3s;
-    }
-
+    body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; transition: background 0.3s, color 0.3s; }
+    .calculator { padding: 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); width: 280px; transition: background 0.3s; }
+    .display { width: 100%; height: 50px; margin-bottom: 10px; text-align: right; font-size: 24px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; background: white; color: black; }
+    .buttons { display: grid; grid-template-columns: repeat(4, 1fr); grid-gap: 10px; }
+    button { padding: 15px; font-size: 18px; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s, color 0.3s; }
     .operator { background-color: #ffa726; color: white; }
     .equal { background-color: #66bb6a; color: white; grid-column: span 2; }
     .clear { background-color: #ef5350; color: white; }
     .theme-toggle { margin-top: 15px; width: 100%; background: #607d8b; color: white; }
-
-    /* Light Theme */
-    body.light {
-      background: #f4f4f4;
-      color: #000;
-    }
-    .light .calculator {
-      background: white;
-    }
-    .light button:not(.operator):not(.equal):not(.clear):not(.theme-toggle) {
-      background-color: #e0e0e0;
-      color: #000;
-    }
-
-    /* Dark Theme */
-    body.dark {
-      background: #1e1e1e;
-      color: #fff;
-    }
-    .dark .calculator {
-      background: #333;
-    }
-    .dark .display {
-      background-color: #555;
-      color: white;
-    }
-    .dark button:not(.operator):not(.equal):not(.clear):not(.theme-toggle) {
-      background-color: #666;
-      color: #fff;
-    }
-
-    /* Credits button */
-    .credits-btn {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      font-size: 16px;
-      font-weight: bold;
-      background: #7e57c2;   /* ม่วงสด */
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      z-index: 100;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-      transition: transform 0.2s, background 0.3s;
-    }
-    .credits-btn:hover {
-      background: #5e35b1;   /* ม่วงเข้มเมื่อ hover */
-      transform: scale(1.05);
-    }
-
-    body.dark .credits-btn {
-      background: #42a5f5;   /* ฟ้าสดใน dark theme */
-    }
-    body.dark .credits-btn:hover {
-      background: #1e88e5;   /* ฟ้าเข้มเมื่อ hover */
-    }
-
-    /* Popup box */
-    .credits-popup {
-      position: fixed;
-      top: 60px;
-      right: 15px;
-      background: #fff;
-      color: #000;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      display: none;
-      z-index: 101;
-    }
-    body.dark .credits-popup {
-      background: #333;
-      color: white;
-      border-color: #666;
-    }
+    body.light { background: #f4f4f4; color: #000; }
+    .light .calculator { background: white; }
+    .light button:not(.operator):not(.equal):not(.clear):not(.theme-toggle) { background-color: #e0e0e0; color: #000; }
+    body.dark { background: #1e1e1e; color: #fff; }
+    .dark .calculator { background: #333; }
+    .dark .display { background-color: #555; color: white; }
+    .dark button:not(.operator):not(.equal):not(.clear):not(.theme-toggle) { background-color: #666; color: #fff; }
+    .credits-btn { position: fixed; top: 15px; right: 15px; font-size: 16px; font-weight: bold; background: #7e57c2; color: white; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.25); transition: transform 0.2s, background 0.3s; }
+    .credits-btn:hover { background: #5e35b1; transform: scale(1.05); }
+    body.dark .credits-btn { background: #42a5f5; }
+    body.dark .credits-btn:hover { background: #1e88e5; }
+    .credits-popup { position: fixed; top: 60px; right: 15px; background: #fff; color: #000; border: 1px solid #ccc; border-radius: 8px; padding: 10px; font-size: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); display: none; z-index: 101; }
+    body.dark .credits-popup { background: #333; color: white; border-color: #666; }
   </style>
 </head>
 <body class="light">
@@ -143,35 +37,28 @@
       <button onclick="press('8')">8</button>
       <button onclick="press('9')">9</button>
       <button class="operator" onclick="press('÷')">÷</button>
-
       <button onclick="press('4')">4</button>
       <button onclick="press('5')">5</button>
       <button onclick="press('6')">6</button>
       <button class="operator" onclick="press('×')">×</button>
-
       <button onclick="press('1')">1</button>
       <button onclick="press('2')">2</button>
       <button onclick="press('3')">3</button>
       <button class="operator" onclick="press('-')">−</button>
-
       <button onclick="press('0')">0</button>
       <button onclick="press('.')">.</button>
       <button class="equal" onclick="calculate()">=</button>
       <button class="operator" onclick="press('+')">+</button>
-
       <button class="clear" onclick="clearDisplay()">C</button>
     </div>
     <button class="theme-toggle" onclick="toggleTheme()">สลับธีม</button>
   </div>
 
-  <!-- ปุ่มผู้จัดทำ -->
   <button class="credits-btn" onclick="toggleCredits()">ผู้จัดทำ</button>
-
-  <!-- กล่องข้อมูลผู้จัดทำ -->
   <div class="credits-popup" id="creditsBox">
     <strong>ผู้จัดทำ:</strong><br>
     รัชพล ศิรนิธิโชติ<br>
-    วิศรุต ประศรี(ไม่ช่วยงานทำอะไรไม่ได้เลย ให้0มันทีครับ)<br>
+    วิศรุต ประศรี<br>
     กฤติน ศรีทองสุข
   </div>
 
@@ -180,39 +67,57 @@
     const creditsBox = document.getElementById('creditsBox');
 
     function press(key) {
-      display.value += key;
+      const operators = ['+', '-', '×', '÷'];
+      let current = display.value;
+      const lastChar = current.slice(-1);
+
+      if (key === '.') {
+        if (current === '' || operators.includes(lastChar)) return;
+        const parts = current.split(/[\+\-×÷]/);
+        if (parts[parts.length - 1].includes('.')) return;
+      }
+
+      if (operators.includes(key)) {
+        if (current === '' && key !== '-') return;
+        if (lastChar === '.') current = current.slice(0, -1);
+        if (operators.includes(lastChar)) {
+          display.value = current.slice(0, -1) + key;
+          return;
+        }
+      }
+
+      display.value = current + key;
     }
 
     function calculate() {
+      if (!display.value.trim()) return;
+      if (!/\d/.test(display.value)) return;
+      let expr = display.value.replace(/×/g, '*').replace(/÷/g, '/');
+      while (/[+\-*/.]$/.test(expr)) { expr = expr.slice(0, -1); }
+      if (!expr) return;
+
       try {
-        let expression = display.value
-          .replace(/×/g, '*')
-          .replace(/÷/g, '/');
-        display.value = eval(expression);
+        const raw = eval(expr);
+        const result = formatNumber(raw);
+        display.value = result;
       } catch {
-        display.value = "Error";
+        display.value = 'Error';
       }
     }
 
-    function clearDisplay() {
-      display.value = '';
+    function formatNumber(n) {
+      if (!isFinite(n)) return 'Error';
+      let s = Number(n).toFixed(12);
+      s = s.replace(/\.?0+$/, '');
+      return s === '' ? '0' : s;
     }
 
-    function toggleTheme() {
-      document.body.classList.toggle('light');
-      document.body.classList.toggle('dark');
-    }
-
-    function toggleCredits() {
-      creditsBox.style.display = creditsBox.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // ปิด popup ถ้าคลิกที่อื่น
+    function clearDisplay() { display.value = ''; }
+    function toggleTheme() { document.body.classList.toggle('light'); document.body.classList.toggle('dark'); }
+    function toggleCredits() { creditsBox.style.display = creditsBox.style.display === 'block' ? 'none' : 'block'; }
     window.addEventListener('click', function(event) {
       const btn = document.querySelector('.credits-btn');
-      if (!creditsBox.contains(event.target) && !btn.contains(event.target)) {
-        creditsBox.style.display = 'none';
-      }
+      if (!creditsBox.contains(event.target) && !btn.contains(event.target)) creditsBox.style.display = 'none';
     });
   </script>
 </body>
