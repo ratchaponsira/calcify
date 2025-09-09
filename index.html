@@ -57,9 +57,9 @@
   <button class="credits-btn" onclick="toggleCredits()">ผู้จัดทำ</button>
   <div class="credits-popup" id="creditsBox">
     <strong>ผู้จัดทำ:</strong><br>
-    รัชพล ศิรนิธิโชติ<br>
-    วิศรุต ประศรี<br>
-    กฤติน ศรีทองสุข
+    นายรัชพล ศิรนิธิโชติ ม.5/2 เลขที่12<br>
+    นายวิศรุต ประศรี ม.5/2 เลขที่13<br>
+    นายกฤติน ศรีทองสุข ม.5/2 เลขที่18
   </div>
 
   <script>
@@ -98,9 +98,13 @@
     function calculate() {
       if (!display.value.trim()) return;
       if (!/\d/.test(display.value)) return;
+
       let expr = display.value.replace(/×/g, '*').replace(/÷/g, '/');
       while (/[+\-*/.]$/.test(expr)) { expr = expr.slice(0, -1); }
       if (!expr) return;
+
+      // แก้บัค: ลบ 0 นำหน้าตัวเลข (ยกเว้น 0.x)
+      expr = expr.replace(/\b0+(\d+)(?!\.)/g, '$1');
 
       try {
         const raw = eval(expr);
