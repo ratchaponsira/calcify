@@ -71,6 +71,12 @@
       let current = display.value;
       const lastChar = current.slice(-1);
 
+      if (key === '0') {
+        const parts = current.split(/[\+\-×÷]/);
+        const lastPart = parts[parts.length - 1];
+        if (lastPart === '0') return;
+      }
+
       if (key === '.') {
         if (current === '' || operators.includes(lastChar)) return;
         const parts = current.split(/[\+\-×÷]/);
